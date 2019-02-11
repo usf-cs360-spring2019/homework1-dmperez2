@@ -10,34 +10,53 @@ var drawBarChart = function() {
         districtIncidents[policeDistrict]++;
       }
     }
+
     var countMin = 0;
     var countMax = getMaxDictionary(districtIncidents);
+
     //Took from http://bl.ocks.org/sjengle/e8c0d6abc0a8d52d4b11
     var margin = {
       top:    15,
-      right:  35, // leave space for y-axis
-      bottom: 30, // leave space for x-axis
+      right:  35,
+      bottom: 30,
       left:   10
     };
+    var svg = d3.select("body").select("svg");
     var bounds = svg.node().getBoundingClientRect();
     var plotWidth = bounds.width - margin.right - margin.left;
     var plotHeight = bounds.height - margin.top - margin.bottom;
-
     var countScale = d3.scale.linear()
-    .domain([countMin, countMax])
-    .range([plotHeight, 0])
-    .nice();
-
+      .domain([countMin, countMax])
+      .range([plotHeight, 0])
+      .nice();
     var districtScale = d3.scale.ordinal()
-    // range, between-bar padding, outside padding
-    .rangeRoundBands([0, plotWidth], 0.1, 0)
-    .domain(Object.keys(districtIncidents));
-
+      .rangeRoundBands([0, plotWidth], 0.1, 0)
+      .domain(Object.keys(districtIncidents));
     var plot = svg.select("g#plot");
-    var bars = plot.selectAll("rect")
-    .data(Object.keys(districtIncidents), function(d) { return d.key; });
+    var xAxis = d3.svg.axis()
+      .scale(countScale)
+      .orient("bottom");
+    var yAxis = d3.svg.axis()
+      .scale(districtScale)
+      .orient("left");
+    if (plot.select("g#y-axis").size() < 1) {
+      plot.append("g")
+        .attr("id", "x-axis")
+        .attr("transform", "translate(0, " + plotHeight + ")")
+        .call(xAxis);
+      plot.append("g")
+        .attr("id", "y-axis")
+        .attr("transform", "translate(" + plotWidth + ", 0)")
+        .call(yAxis);
+    }
   });
+  var svg = d3.select("body").select("svg");
+  var plot = svg.select("g#plot");
 }
+
+var translate = function(x, y) {
+  return "translate(" + String(x) + ", " + String(y) + ")";
+};
 
 
 var getMaxDictionary = function(dictionary) {
