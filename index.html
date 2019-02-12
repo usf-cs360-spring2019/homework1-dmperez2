@@ -108,10 +108,9 @@
 
       <script type="text/javascript">
 
-      //Code took from http://bl.ocks.org/sjengle/e8c0d6abc0a8d52d4b11
+      //Took from http://bl.ocks.org/sjengle/e8c0d6abc0a8d52d4b11
         var svg = d3.select("body").select("svg");
         var bounds = svg.node().getBoundingClientRect();
-        console.log("svg bounds:", bounds);
         var border = svg.append("rect")
             .attr("id", "bounds")
             .attr("x", 0)
@@ -121,7 +120,14 @@
 
         border = border.attr("rx", 10);
         border = border.attr("ry", 10);
-        drawBarChart();
+        d3.csv("data.csv", function (error, data) {
+          if (error) {
+            console.warn(error);
+            return;
+          }
+          console.log("No error, drawing bar chart");
+          drawBarChart(data);
+        });
       </script>
 
       <h3>Interpretation</h3>
