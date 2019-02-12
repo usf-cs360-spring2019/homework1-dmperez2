@@ -17,11 +17,11 @@ var drawBarChart = function(data) {
   /*Scales - TODO: change*/
   var countScale = d3.scale.linear()
     .domain([countMax, countMin])
-    .range([plotHeight, 0])
+    .range([plotHeight - 100, 0])
     .nice();
 
   var districtScale = d3.scale.ordinal()
-    .rangeRoundBands([0, plotWidth], 0.1, 0)
+    .rangeRoundBands([100, plotWidth], 0.4, 0)
     .domain(sortedDistrict);
 
   var margin = {
