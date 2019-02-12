@@ -37,6 +37,9 @@ var drawBarChart = function(data) {
       .attr("transform", translate(margin.left, margin.top));
   }
 
+  var bars = plot.selectAll("rect")
+    .data(districtIncidents.entries(), function(d) { return d.key; });
+
   var xAxis = d3.svg.axis()
     .scale(countScale)
     .orient("bottom");
@@ -47,6 +50,14 @@ var drawBarChart = function(data) {
 
   var xPos = plotHeight - 450;
   var yPos = plotWidth - 350;
+
+  bars.enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return yPos;})
+    .attr("width",function(d) { return countScale(d.value);})
+    .attr("y", function(d) { return districtScale(d.key);})
+    .attr("height", districtScale.rangeBand());
 
   plot.append("g")
     .attr("id", "x-axis")
