@@ -88,11 +88,3 @@ var getCountPoliceDistricts = function (parsedRow) {
   }
   return;
 }
-
-var convertRow = function(row, index) {
-  let out = {};
-  for (let col in row) {
-    out[col] = row[col];
-  }
-  return out;
-}

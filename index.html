@@ -9,9 +9,12 @@
   <title>CS 360/560 Spring 2019</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" type="text/javascript"></script>
+  <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,300italic" rel="stylesheet" type="text/css">
   <link href="style.css" rel="stylesheet" type="text/css">
   <script src="viz1.js" type="text/javascript"></script>
+  <script src="viz2.js" type="text/javascript"></script>
+  <script src="dataParser.js" type="text/javascript"></script>
 
   <!-- bulma 0.7.2 and font awesome v5.7.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" integrity="sha256-2pUeJf+y0ltRPSbKOeJh09ipQFYxUdct5nTY6GAXswA=" crossorigin="anonymous" />
@@ -125,7 +128,6 @@
             console.warn(error);
             return;
           }
-          console.log("No error, drawing bar chart");
           drawBarChart(data);
         });
       </script>
@@ -177,7 +179,7 @@
             console.warn(error);
             return;
           }
-          console.log("No error, drawing bar chart");
+          drawStackBar(data);
         });
       </script>
 
