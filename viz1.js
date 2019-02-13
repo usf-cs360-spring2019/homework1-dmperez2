@@ -49,6 +49,14 @@ var drawBarChart = function(data) {
   var xPos = plotHeight - 450;
   var yPos = plotWidth - 350;
 
+  var grid = d3.axisBottom(countScale)
+    .tickFormat("")
+    .tickSize(plotHeight);
+
+  plot.append("g")
+      .attr("class", "grid")
+      .call(grid);
+
   bars.enter()
     .append("rect")
     .attr("class", "bar")

@@ -42,6 +42,22 @@ var drawLineChart = function(data) {
   var xPos = plotHeight - 300;
   var yPos = plotWidth - 350;
 
+  var grid = d3.axisLeft(countScale)
+    .tickFormat("")
+    .tickSize(-plotHeight);
+
+  plot.append("g")
+      .attr("class", "grid")
+      .call(grid);
+
+  var valueline = d3.line()
+    .x(function(d) { return dayOfWeekScale(d.key); })
+    .y(function(d) { return countScale(d.value); });
+
+   plot.append("path")
+      .attr("class", "line")
+      .attr("d", valueline(incidentsByDayOfWeek.entries()));
+
   plot.append("g")
     .attr("id", "x-axis")
     .attr("transform", "translate(-20, " + xPos + ")")
