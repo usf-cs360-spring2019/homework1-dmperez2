@@ -9,26 +9,28 @@ var drawBarChart = function(data) {
   var countMin = 0;
   var countMax = d3.max(districtIncidents.values());
   //Took from http://bl.ocks.org/sjengle/e8c0d6abc0a8d52d4b11
-  var svg = d3.select("body").select("svg");
+  var svg = d3.select("body").select("svg#svg1");
   var bounds = svg.node().getBoundingClientRect();
   var plotWidth = 430;
   var plotHeight = 880;
 
-  /*Scales - TODO: change*/
-  var countScale = d3.scale.linear()
+  /*Scales*/
+  var countScale = d3.scaleLinear()
     .domain([countMax, countMin])
     .range([plotHeight - 100, 0])
     .nice();
 
-  var districtScale = d3.scale.ordinal()
-    .rangeRoundBands([100, plotWidth], 0.4, 0)
-    .domain(sortedDistrict);
+  var districtScale = d3.scaleBand()
+    .domain(sortedDistrict)
+    .range([100, plotWidth])
+    .paddingInner(0.4);
+
 
   var margin = {
     top:    15,
     right:  35,
     bottom: 30,
-    left:   -25
+    left:   -10
   };
   var plot = svg.select("g#plot");
   if (plot.size() < 1) {
@@ -40,13 +42,9 @@ var drawBarChart = function(data) {
   var bars = plot.selectAll("rect")
     .data(districtIncidents.entries(), function(d) { return d.key; });
 
-  var xAxis = d3.svg.axis()
-    .scale(countScale)
-    .orient("bottom");
+  var xAxis = d3.axisBottom(countScale);
 
-  var yAxis = d3.svg.axis()
-    .scale(districtScale)
-    .orient("left");
+  var yAxis = d3.axisLeft(districtScale);
 
   var xPos = plotHeight - 450;
   var yPos = plotWidth - 350;
@@ -57,7 +55,7 @@ var drawBarChart = function(data) {
     .attr("x", function(d) { return yPos;})
     .attr("width",function(d) { return countScale(d.value);})
     .attr("y", function(d) { return districtScale(d.key);})
-    .attr("height", districtScale.rangeBand());
+    .attr("height", districtScale.bandwidth());
 
   plot.append("g")
     .attr("id", "x-axis")
@@ -68,8 +66,6 @@ var drawBarChart = function(data) {
     .attr("id", "y-axis")
     .attr("transform", "translate(" + yPos + ", 0)")
     .call(yAxis);
-
-
 }
 
 //Took from http://bl.ocks.org/sjengle/e8c0d6abc0a8d52d4b11
