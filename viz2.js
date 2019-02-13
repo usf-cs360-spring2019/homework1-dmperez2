@@ -21,10 +21,10 @@ var drawStackBar = function(data) {
     .paddingInner(0.4);
 
   var margin = {
-    top:    -10,
+    top:    -20,
     right:  45,
     bottom: 30,
-    left:   20
+    left:   80
   };
   var plot = svg.select("g#plot");
   if (plot.size() < 1) {
@@ -38,7 +38,9 @@ var drawStackBar = function(data) {
   var yAxis = d3.axisLeft(countScale);
 
   var xPos = plotHeight - 100;
-  var yPos = plotWidth - 350;
+  var yPos = plotWidth - 435;
+  console.log(yPos);
+  console.log(plotWidth);
 
   //Inspired by https://bl.ocks.org/KingOfCramers/04dcd9742a2be13d99db5f7a7480b4ca
   var districts = getDistricts();
@@ -48,12 +50,23 @@ var drawStackBar = function(data) {
       .order(d3.stackOrderNone)
       .offset(d3.stackOffsetNone);
 
-  var colorScale = d3.scaleSequential(d3.schemeSet2);
+  var colorScale = d3.scaleOrdinal()
+      .domain(districts)
+      .range(d3.schemeSet3);
+
+  var grid = d3.axisLeft(countScale)
+      .tickFormat("")
+      .tickSize(-plotHeight - 240);
+
+  plot.append("g")
+      .attr("class", "grid")
+      .attr("transform", "translate(-5, 0)")
+      .call(grid);
 
   var series = stack(policeDistrictByDay.values());
-  var heightScale = d3.scaleLinear().domain([0,60]).range([20, 480])
+  var heightScale = d3.scaleLinear().domain([0,60]).range([20, 480]);
 
-  var bars = plot.selectAll("g.bar")
+  plot.selectAll("g.bar")
     .data(series)
     .enter()
     .append("g")
@@ -64,10 +77,10 @@ var drawStackBar = function(data) {
             .enter()
             .append("rect")
             .attr("width", dayScale.bandwidth())
-            .attr("height", p => heightScale(p[1]) - heightScale(p[0]))
-            .attr("x", 500)
-            .attr("y", 100)
-            //.style("fill", colorScale(d.key))
+            .attr("height", d => countScale(d[0]) - countScale(d[1]))
+            .attr("x", (d, i) => dayScale(policeDistrictByDay.keys()[i]))
+            .attr("y", d => countScale(d[1]))
+            .style("fill", colorScale(d.key))
     });
 
   plot.append("g")
