@@ -17,8 +17,8 @@ var drawStackBar = function(data) {
 
   var dayScale = d3.scaleBand()
     .domain(policeDistrictByDay.keys())
-    .range([0, plotWidth + 200], 0.3)
-    .paddingInner(0.3);
+    .range([0, plotWidth + 300])
+    .paddingInner(0.4);
 
   var margin = {
     top:    -10,

@@ -20,7 +20,7 @@ var drawLineChart = function(data) {
 
   var dayOfWeekScale = d3.scaleBand()
     .domain(incidentsByDayOfWeek.keys())
-    .range([100, plotWidth + 300])
+    .range([120, plotWidth + 350])
     .paddingInner(0.6);
 
   var margin = {
@@ -43,12 +43,13 @@ var drawLineChart = function(data) {
   var yPos = plotWidth - 350;
 
   var grid = d3.axisLeft(countScale)
-    .tickFormat("")
-    .tickSize(-plotHeight);
+      .tickFormat("")
+      .tickSize(-plotHeight + 193);
 
   plot.append("g")
-      .attr("class", "grid")
-      .call(grid);
+        .attr("class", "grid")
+        .attr("transform", "translate(75, 0)")
+        .call(grid);
 
   var valueline = d3.line()
     .x(function(d) { return dayOfWeekScale(d.key); })

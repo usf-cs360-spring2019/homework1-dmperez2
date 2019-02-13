@@ -50,12 +50,13 @@ var drawBarChart = function(data) {
   var yPos = plotWidth - 350;
 
   var grid = d3.axisBottom(countScale)
-    .tickFormat("")
-    .tickSize(plotHeight);
+      .tickFormat("")
+      .tickSize(plotHeight - 550);
 
   plot.append("g")
-      .attr("class", "grid")
-      .call(grid);
+        .attr("class", "grid")
+        .attr("transform", "translate(80, 100)")
+        .call(grid);
 
   bars.enter()
     .append("rect")
