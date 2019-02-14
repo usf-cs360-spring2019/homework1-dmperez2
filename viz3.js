@@ -10,7 +10,7 @@ var drawLineChart = function(data) {
   var svg = d3.select("body").select("svg#svg3");
   var bounds = svg.node().getBoundingClientRect();
   var plotWidth = 430;
-  var plotHeight = 880;
+  var plotHeight = 850;
 
   /*Scales*/
   var countScale = d3.scaleLinear()
@@ -24,7 +24,7 @@ var drawLineChart = function(data) {
     .paddingInner(0.6);
 
   var margin = {
-    top:    -130,
+    top:    -140,
     right:  35,
     bottom: 30,
     left:   0
@@ -44,12 +44,55 @@ var drawLineChart = function(data) {
 
   var grid = d3.axisLeft(countScale)
       .tickFormat("")
-      .tickSize(-plotHeight + 193);
+      .tickSize(-plotHeight + 160);
 
   plot.append("g")
         .attr("class", "grid")
         .attr("transform", "translate(75, 0)")
         .call(grid);
+
+  svg.append("text")
+        .attr("x", margin.left + 20)
+        .attr("y", margin.top + 170)
+        .attr("text-anchor", "left")
+        .style("font-size", "23px")
+        .text("Incidentes by Day of Week");
+
+  svg.append("text")
+    .attr("x", margin.left - 360)
+    .attr("y", margin.top + 170)
+    .attr("text-anchor", "left")
+    .attr("transform", "rotate(-90)")
+    .style("font-size", "13px")
+    .text("Count of Incident Day of Week");
+
+  svg.append("text")
+    .attr("x", margin.left + 400)
+    .attr("y", margin.top + 190)
+    .attr("text-anchor", "left")
+    .style("font-size", "13px")
+    .text("Incident Day of Week");
+
+  var caption = svg.append("text")
+      .attr("x", margin.left - 120)
+      .attr("y", margin.top + 580)
+      .attr("text-anchor", "right")
+      .style("font-size", "12px");
+
+  var captionText = "Made by: Diana Pérez Hernández\n"+
+          "Description: It's notorious that Saturday is "+
+          "the day where most of the incidents happened in December while"+
+          " Tuesday had a big fall, probably\nbecause is the middle of the week.";
+
+  caption.selectAll("tspan.text")
+        .data(captionText.split("\n"))
+        .enter()
+        .append("tspan")
+        .attr("class", "text")
+        .text(d => d)
+        .attr("x", 20)
+        .attr("dx", 10)
+        .attr("dy", 15);
 
   var valueline = d3.line()
     .x(function(d) { return dayOfWeekScale(d.key); })

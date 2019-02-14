@@ -128,7 +128,6 @@ var drawStackBar = function(data) {
   }
   y = 53;
   for (var i in districtsReverse) {
-    console.log(colorScale(districtsReverse[i]) );
     svg.append("rect")
         .attr("x", 740)
         .attr("y", y + 20)
