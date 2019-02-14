@@ -9,7 +9,7 @@ var drawStackBar = function(data) {
   var svg = d3.select("body").select("svg#svg2");
   var bounds = svg.node().getBoundingClientRect();
   var plotWidth = 430;
-  var plotHeight = 500;
+  var plotHeight = 390;
   var countScale = d3.scaleLinear()
     .domain([countMin, countMax])
     .range([plotHeight - 100, 40])
@@ -17,11 +17,11 @@ var drawStackBar = function(data) {
 
   var dayScale = d3.scaleBand()
     .domain(policeDistrictByDay.keys())
-    .range([0, plotWidth + 300])
-    .paddingInner(0.4);
+    .range([0, plotWidth + 200])
+    .paddingInner(0.3);
 
   var margin = {
-    top:    -20,
+    top:    30,
     right:  45,
     bottom: 30,
     left:   80
@@ -42,7 +42,7 @@ var drawStackBar = function(data) {
 
   //Inspired by https://bl.ocks.org/KingOfCramers/04dcd9742a2be13d99db5f7a7480b4ca
   var districts = getDistricts();
-  console.log(districts);
+
   var stack = d3.stack()
       .keys(districts)
       .order(d3.stackOrderNone)
@@ -64,6 +64,79 @@ var drawStackBar = function(data) {
   var series = stack(policeDistrictByDay.values());
   var heightScale = d3.scaleLinear().domain([0,60]).range([20, 480]);
 
+  svg.append("text")
+        .attr("x", margin.left - 60)
+        .attr("y", margin.top)
+        .attr("text-anchor", "left")
+        .style("font-size", "23px")
+        .text("Daily Incidents reported by Police District");
+
+  svg.append("text")
+        .attr("x", margin.left - 360)
+        .attr("y", margin.top + 10)
+        .attr("text-anchor", "left")
+        .attr("transform", "rotate(-90)")
+        .style("font-size", "13px")
+        .text("Count of Incident Day");
+
+  svg.append("text")
+        .attr("x", margin.left + 280)
+        .attr("y", margin.top + 35)
+        .attr("text-anchor", "left")
+        .style("font-size", "13px")
+        .text("Day of Incident Date");
+
+  var caption = svg.append("text")
+        .attr("x", margin.left - 120)
+        .attr("y", margin.top + 400)
+        .attr("text-anchor", "right")
+        .style("font-size", "12px");
+
+  var captionText = "Made by: Diana Pérez Hernández\n"+
+        "Description: On December 25, the amount of incidents" +
+        "reported for every district had a significant decrease."+
+        "Still the amont of incidents\nreported every day doesn't "+
+        "vary much with an exception of December 25."
+
+  caption.selectAll("tspan.text")
+          .data(captionText.split("\n"))
+          .enter()
+          .append("tspan")
+          .attr("class", "text")
+          .text(d => d)
+          .attr("x", 20)
+          .attr("dx", 10)
+          .attr("dy", 15);
+
+  svg.append("text")
+    .attr("x", 735)
+    .attr("y", 65)
+    .attr("text-anchor", "left")
+    .style("font-size", "15px")
+    .text("Police District");
+
+  var y = 65;
+  var districtsReverse = districts.reverse();
+  for (var i in districtsReverse) {
+    svg.append("text")
+        .attr("x", 760)
+        .attr("y", y + 20)
+        .attr("text-anchor", "right")
+        .style("font-size", "14px")
+        .text(districts[i]);
+        y += 20;
+  }
+  y = 53;
+  for (var i in districtsReverse) {
+    console.log(colorScale(districtsReverse[i]) );
+    svg.append("rect")
+        .attr("x", 740)
+        .attr("y", y + 20)
+        .attr("width", 15)
+        .attr("height", 15)
+        .style("fill", colorScale(districtsReverse[i]));
+        y += 20;
+  }
   plot.selectAll("g.bar")
     .data(series)
     .enter()
