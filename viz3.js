@@ -59,7 +59,7 @@ var drawLineChart = function(data) {
         .text("Incidentes by Day of Week");
 
   svg.append("text")
-    .attr("x", margin.left - 360)
+    .attr("x", margin.left - 320)
     .attr("y", margin.top + 170)
     .attr("text-anchor", "left")
     .attr("transform", "rotate(-90)")
@@ -77,6 +77,7 @@ var drawLineChart = function(data) {
       .attr("x", margin.left - 120)
       .attr("y", margin.top + 580)
       .attr("text-anchor", "right")
+      .style("fill", "grey")
       .style("font-size", "12px");
 
   var captionText = "Made by: Diana Pérez Hernández\n"+

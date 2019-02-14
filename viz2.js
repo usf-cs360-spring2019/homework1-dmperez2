@@ -90,6 +90,7 @@ var drawStackBar = function(data) {
         .attr("x", margin.left - 120)
         .attr("y", margin.top + 400)
         .attr("text-anchor", "right")
+        .style("fill", "grey")
         .style("font-size", "12px");
 
   var captionText = "Made by: Diana Pérez Hernández\n"+
@@ -122,7 +123,7 @@ var drawStackBar = function(data) {
         .attr("x", 760)
         .attr("y", y + 20)
         .attr("text-anchor", "right")
-        .style("font-size", "14px")
+        .style("font-size", "13px")
         .text(districts[i]);
         y += 20;
   }

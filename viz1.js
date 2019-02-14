@@ -83,6 +83,7 @@ var drawBarChart = function(data) {
         .attr("x", margin.left - 120)
         .attr("y", margin.top + 420)
         .attr("text-anchor", "left")
+        .style("fill", "grey")
         .style("font-size", "13px");
 
   var captionText = "Made by: Diana Pérez Hernández\n"+

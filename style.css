@@ -76,8 +76,13 @@ path[class="domain"] {
   stroke: none;
 }
 
+text {
+  font-family: 'Tahoma'
+}
+
 .tick text {
   fill: grey;
+  font-family: 'Tahoma'
 }
 
 .axis path,
