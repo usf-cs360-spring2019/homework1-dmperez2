@@ -39,12 +39,10 @@ var drawStackBar = function(data) {
 
   var xPos = plotHeight - 100;
   var yPos = plotWidth - 435;
-  console.log(yPos);
-  console.log(plotWidth);
 
   //Inspired by https://bl.ocks.org/KingOfCramers/04dcd9742a2be13d99db5f7a7480b4ca
   var districts = getDistricts();
-
+  console.log(districts);
   var stack = d3.stack()
       .keys(districts)
       .order(d3.stackOrderNone)
@@ -52,7 +50,7 @@ var drawStackBar = function(data) {
 
   var colorScale = d3.scaleOrdinal()
       .domain(districts)
-      .range(d3.schemeSet3);
+      .range(d3.schemePaired);
 
   var grid = d3.axisLeft(countScale)
       .tickFormat("")
@@ -60,7 +58,7 @@ var drawStackBar = function(data) {
 
   plot.append("g")
       .attr("class", "grid")
-      .attr("transform", "translate(-5, 0)")
+      .attr("transform", "translate(-7, 0)")
       .call(grid);
 
   var series = stack(policeDistrictByDay.values());
@@ -106,7 +104,7 @@ var getDistricts = function() {
   for(var key in value) {
     districts.push(key);
   }
-  return districts;
+  return districts.sort().reverse();
 }
 
 var getCountPoliceDistrictsByDay = function(parsedRow) {

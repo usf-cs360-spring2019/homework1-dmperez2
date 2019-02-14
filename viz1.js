@@ -27,10 +27,10 @@ var drawBarChart = function(data) {
 
 
   var margin = {
-    top:    15,
+    top:    -30,
     right:  35,
     bottom: 30,
-    left:   -10
+    left:   40
   };
   var plot = svg.select("g#plot");
   if (plot.size() < 1) {
@@ -58,6 +58,27 @@ var drawBarChart = function(data) {
         .attr("transform", "translate(80, 100)")
         .call(grid);
 
+  svg.append("text")
+        .attr("x", margin.left)
+        .attr("y", margin.top + 60)
+        .attr("text-anchor", "left")
+        .style("font-size", "23px")
+        .text("Incidents reported by Police Districts in SF");
+
+  svg.append("text")
+        .attr("x", margin.left)
+        .attr("y", margin.top + 90)
+        .attr("text-anchor", "left")
+        .style("font-size", "13px")
+        .text("Police District");
+
+  svg.append("text")
+        .attr("x", margin.left + 410)
+        .attr("y", margin.top + 470)
+        .attr("text-anchor", "left")
+        .style("font-size", "13px")
+        .text("Count of Incident Category");
+
   bars.enter()
     .append("rect")
     .attr("class", "bar")
@@ -74,6 +95,7 @@ var drawBarChart = function(data) {
   plot.append("g")
     .attr("id", "y-axis")
     .attr("transform", "translate(" + yPos + ", 0)")
+    .style("stroke-width", "0")
     .call(yAxis);
 }
 
